@@ -1,0 +1,319 @@
+                                               class -8
+                                            ===============
+https://drive.google.com/drive/folders/1EOLCARCdWOf2zeZfXEykFgi5Zv8sd-Jt?usp=sharing   devops prasad videos
+
+https://github.com/Gajjaravu/batch84.git
+
+Redhat-9-DevOps-Practice
+ami-0220d79f3f480ecf5
+
+ec2-user
+DevOps321       daws84s.sbs
+
+mysql_secure_installation --set-root-pass ExpenseApp@1
+
+
+
+
+
+[ root@ip-172-31-35-57 /usr/share/nginx/html ]# vim /etc/nginx/nginx.conf
+user    nginx;
+worker_processes auto;
+error_log   /var/log/nginx/error.log notice;
+pid         /run/nginx.pid;
+
+
+include /usr/share/nginx/modules/*.conf;
+
+events {
+   worker_connections  1024;
+
+   }
+
+   http {
+        log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"http_user_agent" "$http_x_forwarded_for"';
+
+        access_log      /var/log/nginx/access.log  main;
+        sendfile           on;
+        tcp_nopush         on;
+        keepalive_timeout  65;
+        types_hash_max_size 4096;
+
+        include /etc/nginx/default.d/*.conf;
+
+        server {
+
+             listen    80;
+             listen    [::]:80;
+             server_name  _;
+             root        /usr/share/nginx/html;
+
+        include /etc/nginx/default.d/*.conf;
+
+        error_page  404 /404.html;
+          location = /404.html {
+          }
+
+          error_page 500 502 503 504 /50x.html;
+          location = /50x.html {
+          }
+
+          location  /images/ {
+            expires  5s;
+            root     /usr/share/nginx/html;
+            try_files $uri /images/placeholder.jpg;
+            }
+            location  /api/catalogue/ { proxy_pass http://localhost:8080/; }
+            location  /api/user/ { proxy_pass http://localhost:8080/; }
+            location  /api/cart/ { proxy_pass http://localhost:8080/; }
+            location  /api/shipping/ { proxy_pass http://localhost:8080/; }
+            location  /api/payment/ { proxy_pass http://localhost:8080/; }
+
+
+            location   /health {
+               stub_status on;
+               access_log  off;
+               }
+
+           }
+    }
+
+                      
+
+---------------------------------------------------------------------------------
+                          commands- roboshop
+                         ---------------------        
+
+1  10/10/26 09:33:28 dnf module list nginx
+    2  10/10/26 09:34:05 dnf module disable nodejs
+    3  10/10/26 09:35:07 dnf module enable nginx:1.24
+    4  10/10/26 09:35:42 dnf install nginx -y
+    5  10/10/26 09:36:58 systemctl enable nginx
+    6  10/10/26 09:37:12 systemctl start nginx
+    7  10/10/26 09:40:01 rm -rf /usr/share/nginx/html/*
+    8  10/10/26 09:40:44 curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+    9  10/10/26 09:41:19 cd /usr/share/nginx/html
+   10  10/10/26 09:41:23 ls -l
+   11  10/10/26 09:42:22 unzip /tmp/frontend.zip
+   12  10/10/26 09:42:30 ls -l
+   13  10/10/26 09:44:00 vim /etc/nginx/nginx.conf
+   14  10/10/26 09:45:03 nginx -t
+   15  10/10/26 09:45:13 systemctl restart nginx
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+mongodb :
+
+
+vim /etc/yum.repos.d/mongo.repo
+[mongodb-org-7.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/7.0/x86_64/
+gpgcheck=0
+enabled=1
+:wq!
+
+dnf install mongodb-org -y
+systemctl enable mongod
+systemctl start mongod
+netstat -lntp
+systemctl restart mongod
+netstat -lntp
+
+vim /etc/mongod.conf
+
+bind ip: 0.0.0.0
+
+:wq!
+systemctl restart mongod
+netstat -lntp
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+catalogue:
+===========
+
+build tool - npm install
+build file - package.json
+java - .java, tool - maven
+python- .py,  tool - pip
+php - .php
+go - .go
+
+[ root@ip-172-31-32-129 /app/db ]# history
+    1  09/10/26 11:53:51 dnf module list nodejs
+    2  09/10/26 11:55:55 dnf module disable nodejs -y
+    3  09/10/26 11:56:33 dnf module enable nodejs:20 -y
+    4  09/10/26 11:57:01 dnf install nodejs -y
+    5  09/10/26 11:58:37 ps -ef |grep nodejs
+    6  09/10/26 12:07:01 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    7  09/10/26 12:08:05 cat /etc/passwd |grep roboshop
+    8  09/10/26 12:10:24 mkdir /app
+    9  09/10/26 12:12:41 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+   10  09/10/26 12:12:52 cd /app
+   11  09/10/26 12:13:23 unzip /tmp/catalogue.zip
+   12  09/10/26 12:21:51 cat package.json
+   13  09/10/26 12:24:07 ca
+   14  09/10/26 12:25:31 ls -l
+   15  09/10/26 12:26:00 cd node_modules
+   16  09/10/26 12:26:04 ls -l
+   17  09/10/26 12:27:00 cd ..
+   18  09/10/26 12:27:04 ls -l
+   19  09/10/26 12:31:12 cat package-lock.json
+   20  09/10/26 12:31:21 ls -l
+   21  09/10/26 12:40:03 vim /etc/systemd/system/catalogue.service
+[unit]
+Description = Catalogue Service
+
+[Service]
+User=roboshop
+Environment=MONGO=true
+//highlight-start
+Environment=MONGO_URL="mongodb://mongodb.daws84s.sbs:27017/catalogue"
+//highlight-end
+ExecStart=/bin/node /app/server.js
+SyslogIdentifier=catalogue
+
+[Install]
+WantedBy=multi-user.target
+
+
+   22  09/10/26 13:03:02 systemctl enable catalogue
+   23  09/10/26 13:03:19 systemctl start catalogue
+   24  09/10/26 13:03:33 systemctl status catalogue
+   25  09/10/26 13:06:37 systemctl daemon-reload
+   26  09/10/26 13:07:11 systemctl restart catalogue
+   27  09/10/26 13:07:31 systemctl status catalogue
+   28  09/10/26 13:09:53 vim /etc/yum.repos.d/mongo.repo
+[mongodb-org-7.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/7.0/x86_64/
+gpgcheck=0
+enabled=1
+
+                   
+                       :wq!
+   29  09/10/26 13:11:14 dnf install mongodb-mongosh -y
+   30  09/10/26 13:12:01 ls -l
+   31  09/10/26 13:12:25 cd db/
+   32  09/10/26 13:12:30 ls -l
+   33  09/10/26 13:13:02 cat master-data.js
+   34  09/10/26 13:15:48 mongosh --host mongodb.daws84s.sbs </app/db/master-data.js
+   35  09/10/26 13:36:04 netstat -lntp
+   After that we need to create route53 record catalogue
+
+   catalogue.daws84s.sbs  put in catalogue ip 
+then after frontend server  vim /etc/nginx/nginx.conf
+                            
+location  /api/catalogue/ { proxy_pass http://catalogue.daws84s.sbs:8080/; }
+
+:wq!
+
+systemctl restart nginx
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                         class 9
+                                                             ===========Expense project============
+
+MySQL server:
+---------------
+
+dnf install mysql-server -y
+systemctl enable mysqld
+systemctl start mysqld
+netstat -lntp
+mysql_secure_installation --set-root-pass ExpenseApp@1
+nslookup mysql.daws84s.sbs
+mysql -h mysql.daws84s.sbs -u root -pExpenseApp@1
+show databases;
+use MySQL;
+show tables;
+select * from user;
+
+
+backend:
+--------------------
+dnf module disable nodejs -y
+dnf module enable nodejs:20 -y
+dnf install nodejs -y
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" expense
+id expense
+mkdir /app
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+cd /app
+unzip /tmp/backend.zip
+ls -l
+npm install
+ls -l
+vim /etc/systemd/system/backend.service
+systemctl daemon-reload
+systemctl start backend
+systemctl enable backend
+systemctl status backend
+cd /schema
+ls -l
+cat backend.sql
+dnf install mysql -y
+mysql -h mysql.daws84s.sbs -uroot -pExpenseApp@1 < /app/schema/backend.sql
+systemctl restart backend
+systemctl status backend
+netstat -lntp
+telnet mysql.daws84s.sbs 3306      (MySQL server connecting backend server myql port =3306)
+
+
+frontend:
+---------------
+dnf install nginx -y
+systemctl enable nginx
+systemctl start nginx
+rm -rf /usr/share/nginx/html/*
+curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+cd /usr/share/nginx/html/
+unzip /tmp/frontend.zip
+ls -l
+cd /etc/nginx
+ls -l
+cd default.d/
+vim expense.conf
+proxy_http_version 1.1;
+
+location /api/ { proxy_pass http://localhost:8080/; }
+
+location /health {
+        stub_status on;
+        access_log off;
+       }
+
+:wq!
+
+Systemctl restart nginx
+systemctl status nginx
+go to 
+
+vim expense.conf
+proxy_http_version 1.1;
+
+location /api/ { proxy_pass http://backend.daws84s.sbs:8080/; }
+
+location /health {
+        stub_status on;
+        access_log off;
+       }
+
+:wq!
+
+sytemctl restart nginx
+
+then after take frontend server public ip put the route53records
+
+daws84s.sbs put in ip 
+
+save
+
+then go to browser
+
+check site is working or not 
+
+daws84s.sbs
