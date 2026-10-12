@@ -39,3 +39,5 @@ git push
 git pull --rebase
 git push
 
+git reset head file2     (file2 return to staging area to workspace)
+
