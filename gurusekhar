@@ -25,5 +25,12 @@ git show cid             -> Local repo
 git push      -> local repo canges to be central repo
 git clone https://github.com/Gajjaravu/batch84.git           -> central repo data in to local repo
 
-
+delete a file:
+-------------
+rm file2
+ls
+git status
+git add .
+git commit -m "deleted file2"
+git push      --> delete file2 in central repository
 
