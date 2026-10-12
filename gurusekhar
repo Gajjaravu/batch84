@@ -55,7 +55,19 @@ git log --since=yy-mm-dd  or git log --after=yy-mm-dd
 git log --until=yy-mm-dd or git log --before=yy-mm-dd
 git log --since=yy-mm-dd --until=yy-mm-dd
 git log --after=yy-mm-dd --until=yy-mm-dd
-git log --after="yy-mm-dd 24:00" --before="yy-mm-dd 24:00"
+git log --after="yy-mm-dd 24:00" --before="yy-mm-dd 24:00"  (since=after, unti=before)
 git log --grep "label message"
 git log --file filename
+
+
+git branch
+git branch release1
+git branch
+git checkout release1
+git branch
+git checkout main
+git branch
+git branch -d release1
+
+
 
