@@ -41,3 +41,21 @@ git push
 
 git reset head file2     (file2 return to staging area to workspace)
 
+
+GIT logs:
+=================
+git log
+git log -n or git log -4
+git log --oneline
+git log --oneline -n
+git log --author=gurusekhar
+git log --author=gurusekhar -n
+git log --author=gurusekhar --oneline
+git log --since=yy-mm-dd  or git log --after=yy-mm-dd
+git log --until=yy-mm-dd or git log --before=yy-mm-dd
+git log --since=yy-mm-dd --until=yy-mm-dd
+git log --after=yy-mm-dd --until=yy-mm-dd
+git log --after="yy-mm-dd 24:00" --before="yy-mm-dd 24:00"
+git log --grep "label message"
+git log --file filename
+
