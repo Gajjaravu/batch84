@@ -33,6 +33,7 @@ git status
 git add .
 git commit -m "deleted file2"
 git push      --> delete file2 in central repository
+---------------------------------------------------------------------------------------
 git pull --rebase   --> (central repo changes in to local repo)
 git push
 git pull --rebase
