@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 git init 
 git config --global user.name "gajjaravu gurusekhar"
 git config --global user.email "gurusekharadm1@gmail.com"
@@ -84,3 +85,10 @@ git merge release1
 
 
 
+=======
+git push https://github.com/Gajjaravu/batch84.git release1  ( upload the data in local to central repo)
+      or
+git push origin release1
+
+git local repo data in to central repo
+>>>>>>> 425df39 (git commands)
