@@ -328,7 +328,7 @@ trouble shooting:
 /var/log/nginx/access.log
 /var/log/messages
 ========================================================================================
-shipping:mysql
+mysql
 -----------
 dnf install mysql-server -y
 systemctl enable mysqld
@@ -338,3 +338,70 @@ netstat -lntp
 MySQL
 show databases;
 exit
+=================================================
+shipping
+-------------
+dnf install maven -y
+java --version
+mvn --version
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+mkdir /app
+curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
+cd /app
+unzip /tmp/shipping.zip
+ls -l
+mvn clean package
+ls -l
+mvn clean
+ls -l
+mvn compile
+ls -l
+cd target/
+ls -l
+cd classes/
+ls -l
+cd com/
+ls
+cd cd instana/
+ls
+ cd robotshop/
+ls
+cd shipping/
+ls
+cd /app
+
+
+mvn clean package --> clean previous installs and do the fresh packaging
+.jar --> packaging in java(byte codes)
+.java --> java source file extension
+.class --> java byte code extension
+
+mvn compile --> compile the java source code and create byte code in .class format in target folder
+mvn package --> pack the java file into single file called shipping-<version>.
+
+maven life cycle --> clean compile test and package
+package = compile + test also
+
+systemctl daemon-reload
+systemctl enable shipping
+systemctl start shipping
+systemctl status shipping
+netstat -lntp
+less /var/log/messages
+systemctl status shipping
+
+
+dnf install mysql -y
+mysql-h mysql.daws84s.sbs -uroot -pRoboShop@1 < /app/db/schema.sql
+cat /app/db/app-user.sql
+mysql -h mysql.daws84s.sbs -uroot -pRoboShop@1 < /app/db/master-data.sql
+systemctl restart shipping
+netstat -lntp
+less /var/log/messages
+
+
+we need to frontend lo route53 records apply 
+vim /etc/nginx/nginx.conf
+:wq!
+
+systemctl resart nginx
