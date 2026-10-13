@@ -69,5 +69,18 @@ git checkout main
 git branch
 git branch -d release1
 
+git branch ( copy in p1 file release1 in to main branch )
+main
+release1
+git checkout release1
+touch p1
+ls
+git add .
+git commit -m "p1 file"
+git checkout main
+ls
+git merge release1
+
+
 
 
