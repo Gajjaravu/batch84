@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 git init 
 git config --global user.name "gajjaravu gurusekhar"
 git config --global user.email "gurusekharadm1@gmail.com"
@@ -82,5 +83,23 @@ ls
 git merge release1
 
 
+how to delete branch:
+=====================
+
+git branch -d branch name
+git branch -d release1 (example)
+git branch -D release1 (to delete the local repo)
+git push origin -d release1 (to delete the centra repo)
+
+git pull --rebase origin main
+git push origin main
 
 
+
+=======
+git push https://github.com/Gajjaravu/batch84.git release1  ( upload the data in local to central repo)
+      or
+git push origin release1
+
+git local repo data in to central repo
+>>>>>>> 425df39 (git commands)
